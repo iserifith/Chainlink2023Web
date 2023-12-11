@@ -14,6 +14,7 @@ import {
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { WALLET_CONNECT_PROJECT_ID } from "../src/utils/commons";
+import Layout from "../src/components/Layout";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, polygon, base, goerli, sepolia, polygonMumbai, arbitrumGoerli],
@@ -37,7 +38,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </RainbowKitProvider>
     </WagmiConfig>
   );

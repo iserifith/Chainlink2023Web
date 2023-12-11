@@ -41,9 +41,9 @@ const Popup = ({ message, type = "success", show, setShow }: Props) => {
   return (
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
       <div className={`w-96 rounded-md shadow-lg ${bgColor}`}>
-        <div className="flex justify-between items-center px-4 py-2">
+        <div className="flex justify-between items-center ">
           <div
-            className="cursor-pointer"
+            className="cursor-pointer w-[100%] text-right font-black shadow-xl px-5 py-2"
             onClick={() => {
               setShow(false);
             }}
@@ -51,7 +51,9 @@ const Popup = ({ message, type = "success", show, setShow }: Props) => {
             x
           </div>
         </div>
-        <div className="px-4 py-2">{message}</div>
+        <div className="px-4 py-2 min-h-[200px] text-center flex justify-center items-center font-semibold overflow-scroll">
+          {message}
+        </div>
       </div>
     </div>
   );
