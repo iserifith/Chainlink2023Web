@@ -15,7 +15,7 @@ const HomeScreen = () => {
   const { openPopup, renderPopup } = usePopup();
   const { isConnected } = useAccount();
   const [{ run, steps }, setState] = useSetState<State>({
-    run: false,
+    run: true,
     steps: [
       {
         content: <h2>Lets start!</h2>,
@@ -26,14 +26,46 @@ const HomeScreen = () => {
       {
         content: (
           <div>
-            <h2>Deploy Base URI Token</h2>
-            <p>Deploy a token with a base URI</p>
-            <link href="" />
+            <h2 className="font-bold">Set Approval for Operator</h2>
+            <p>to be done (once) before transferring tokens</p>
           </div>
         ),
-        locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+        locale: { skip: <strong aria-label="skip">skip</strong> },
+        target: "#set-approval",
+      },
 
+      {
+        content: (
+          <div>
+            <h2 className="font-bold">Transfer Token</h2>
+            <p>
+              Once the NFT contract been bridged, your user can now transfer
+              their token across chains.
+            </p>
+          </div>
+        ),
+        locale: { skip: <strong aria-label="skip">skip</strong> },
+        target: "#transfer-token",
+      },
+      {
+        content: (
+          <div>
+            <h2 className="font-bold">Deploy Base URI Token</h2>
+            <p></p>
+          </div>
+        ),
+        locale: { skip: <strong aria-label="skip">skip</strong> },
         target: "#deploy-base-uri",
+      },
+      {
+        content: (
+          <div>
+            <h2 className="font-bold">Deploy Base URI Token</h2>
+            <p></p>
+          </div>
+        ),
+        locale: { skip: <strong aria-label="skip">skip</strong> },
+        target: "#deploy-individual-uri",
       },
     ],
   });
@@ -83,6 +115,7 @@ const HomeScreen = () => {
               Token Owner Actions
             </h2>
             <Button
+              id="transfer-token"
               onClick={() => router.push("/transfer")}
               label="Transfer Token"
             ></Button>

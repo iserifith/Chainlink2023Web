@@ -26,8 +26,9 @@ import {
 } from "../utils/contracts";
 import { usePopup } from "../components/Popup";
 import { parse } from "path";
-import { shortenAddress } from "../utils/commons";
+import { DESTINATION_CHAINS, shortenAddress } from "../utils/commons";
 import { useAccount, useConnect } from "wagmi";
+import Dropdown from "../components/Dropdown";
 type Props = {};
 
 const DeployBaseUriScreen = (props: Props) => {
@@ -109,6 +110,15 @@ const DeployBaseUriScreen = (props: Props) => {
             value={nftContractAddr}
           />
 
+          <Dropdown
+            items={DESTINATION_CHAINS}
+            onChange={(value: any) => {
+              setDestinationChain(value);
+            }}
+            label="Destination Chain"
+            value={destinationChain}
+          />
+
           <TextInput
             label="Base URI"
             placeholder="http://mybaseuri.com/"
@@ -140,12 +150,13 @@ const DeployBaseUriScreen = (props: Props) => {
             />
           </div>
 
-          <TextInput
+          {/* <TextInput
             label="Destination Chain"
             placeholder="1"
             onChange={(e) => setDestinationChain(e.target.value)}
             value={destinationChain}
-          />
+          /> */}
+
           <Button
             loading={isLoading}
             label="Deploy Base URI NFT"

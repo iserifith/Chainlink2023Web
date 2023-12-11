@@ -16,8 +16,9 @@ import {
 } from "../utils/contracts";
 import { usePopup } from "../components/Popup";
 import { parse } from "path";
-import { shortenAddress } from "../utils/commons";
+import { DESTINATION_CHAINS, shortenAddress } from "../utils/commons";
 import { useAccount, useConnect } from "wagmi";
+import Dropdown from "../components/Dropdown";
 type Props = {};
 
 const DeployIndividualUri = (props: Props) => {
@@ -84,10 +85,18 @@ const DeployIndividualUri = (props: Props) => {
             value={nftContractAddr}
             onChange={(e) => setNftContractAddr(e.target.value)}
           />
-          <TextInput
+          {/* <TextInput
             label="Destination Chain"
             value={destinationChain}
             onChange={(e) => setDestinationChain(e.target.value)}
+          /> */}
+          <Dropdown
+            items={DESTINATION_CHAINS}
+            onChange={(value: any) => {
+              setDestinationChain(value);
+            }}
+            label="Destination Chain"
+            value={destinationChain}
           />
           <Button
             loading={isLoading}
