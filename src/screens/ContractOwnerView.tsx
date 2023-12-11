@@ -16,6 +16,7 @@ import {
 } from "../utils/contracts";
 import { usePopup } from "../components/Popup";
 import { parse } from "path";
+import { shortenAddress } from "../utils/commons";
 
 type Props = {};
 
@@ -30,7 +31,9 @@ const ContractOwnerView = (props: Props) => {
   const [baseZero, setBaseZero] = useState(false);
   const [destinationChain, setDestinationChain] = useState("1");
 
-  const [deployedTx, setDeployedTx] = useState("");
+  const [deployedTx, setDeployedTx] = useState(
+    "0x648bad6b58e789afc50cd43ef224aa7ec37f0df8bae046f02591b5b15ba7c58a"
+  );
   const [isLoading, setIsLoading] = useState(false);
   const { openPopup, renderPopup } = usePopup();
 
@@ -43,16 +46,16 @@ const ContractOwnerView = (props: Props) => {
     }
 
     try {
-      const estimatedCost = (await estimateCostForCreateIndividualURIBasedToken(
-        {
-          nft: nftContractAddr,
-          destinationChain: "1",
-        }
-      )) as unknown as bigint;
+      // const estimatedCost = (await estimateCostForCreateIndividualURIBasedToken(
+      //   {
+      //     nft: nftContractAddr,
+      //     destinationChain: "1",
+      //   }
+      // )) as unknown as bigint;
 
-      // // const fee = parseUnits(estimatedCost + "", 18);
-      // const fee = formatEther(estimatedCost, "gwei");
-      // 2770378597231377
+      // // // const fee = parseUnits(estimatedCost + "", 18);
+      // // const fee = formatEther(estimatedCost, "gwei");
+      // // 2770378597231377
       const fee = 0.002770378597231377 * (110 / 100);
 
       const res = await createIndividualURINFT({
@@ -61,8 +64,20 @@ const ContractOwnerView = (props: Props) => {
         value: parseEther(fee + ""),
       });
       console.log(res);
-    } catch (error) {
+      setIsLoading(false);
+      setDeployedTx(res);
+      openPopup(`Transaction sent: ${shortenAddress(res)}`, "success");
+    } catch (error: any) {
       console.log(error);
+      setIsLoading(false);
+
+      const message =
+        typeof error === "string"
+          ? error
+          : error?.message
+          ? error.message
+          : "Error";
+      openPopup(message, "error");
     }
   };
 
@@ -173,7 +188,48 @@ const ContractOwnerView = (props: Props) => {
             </div>
           </div>
           <div className="w-[40%]">
-            <h1>HEllo</h1>
+            <div>
+              {deployedTx && (
+                <>
+                  <h5 className="text-2xl font-bold">Deployed Transaction</h5>
+                  <a
+                    className="text-blue-500 hover:underline block"
+                    href={`https://goerli.arbiscan.io/tx/${deployedTx}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on Arbiscan
+                  </a>
+                  <a
+                    className="text-blue-500 hover:underline block"
+                    href={`https://ccip.chain.link/tx/${deployedTx}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on CCIP
+                  </a>
+                </>
+              )}
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Instructions</h1>
+              <p className="font-mono text-sm">
+                1. For Individual NFT, only the address and destination chain
+                values are needed.
+              </p>
+              <p className="font-mono text-sm">
+                2. The bridge operator must be given approval to transfer the
+                token <span className="font-bold">(setApprovalForAll)</span> .
+              </p>
+              <p className="font-mono text-sm">
+                3. Wait until the bridge transaction is confirmed on CCIP before
+                transferring our token.
+              </p>
+              <p className="font-mono text-sm">
+                4. Each operation on the bridge may take up to 20 minutes to 30
+                minutes to complete.
+              </p>
+            </div>
           </div>
         </div>
       </div>
