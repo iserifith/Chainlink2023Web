@@ -7,15 +7,13 @@ import { parseEther } from "viem";
 type Props = {};
 
 const UserView = (props: Props) => {
-  const [nftContractAddr, setNftContractAddr] = useState(
-    "0x04FEa3c81aC6e50D2F26FC7edb6E82c113E72FA5"
-  );
+  const [nftContractAddr, setNftContractAddr] = useState("");
   const [destinationChain, setDestinationChain] = useState("1");
   const [tokenId, setTokenId] = useState("1");
 
   const transfer = async () => {
     try {
-      const fee = parseEther("0.005");
+      const fee = parseEther("0.01");
       const res = await TransferMyToken({
         nft: nftContractAddr,
         destinationChain: destinationChain,

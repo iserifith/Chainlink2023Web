@@ -23,19 +23,15 @@ type Props = {};
 
 const ContractOwnerView = (props: Props) => {
   const { isConnected } = useAccount();
-  const [nftContractAddr, setNftContractAddr] = useState(
-    "0x04FEa3c81aC6e50D2F26FC7edb6E82c113E72FA5"
-  );
+  const [nftContractAddr, setNftContractAddr] = useState("");
 
-  const [baseURI, setBaseURI] = useState("http://mybaseuri.com/");
+  const [baseURI, setBaseURI] = useState("");
   const [suffix, setSuffix] = useState(".json");
   const [offset, setOffset] = useState("0");
   const [baseZero, setBaseZero] = useState(false);
   const [destinationChain, setDestinationChain] = useState("1");
 
-  const [deployedTx, setDeployedTx] = useState(
-    "0x648bad6b58e789afc50cd43ef224aa7ec37f0df8bae046f02591b5b15ba7c58a"
-  );
+  const [deployedTx, setDeployedTx] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { openPopup, renderPopup } = usePopup();
 
