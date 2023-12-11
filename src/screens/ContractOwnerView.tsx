@@ -17,10 +17,12 @@ import {
 import { usePopup } from "../components/Popup";
 import { parse } from "path";
 import { shortenAddress } from "../utils/commons";
+import { useAccount, useConnect } from "wagmi";
 
 type Props = {};
 
 const ContractOwnerView = (props: Props) => {
+  const { isConnected } = useAccount();
   const [nftContractAddr, setNftContractAddr] = useState(
     "0x04FEa3c81aC6e50D2F26FC7edb6E82c113E72FA5"
   );
@@ -56,7 +58,7 @@ const ContractOwnerView = (props: Props) => {
       // // // const fee = parseUnits(estimatedCost + "", 18);
       // // const fee = formatEther(estimatedCost, "gwei");
       // // 2770378597231377
-      const fee = 0.002770378597231377 * (110 / 100);
+      const fee = 0.003 * (110 / 100) * 2;
 
       const res = await createIndividualURINFT({
         nft: nftContractAddr,
@@ -178,12 +180,14 @@ const ContractOwnerView = (props: Props) => {
                 onClick={deployBaseURINFT}
                 label="Base URI"
                 loading={isLoading}
+                disabled={isLoading || !isConnected}
               />
 
               <Button
                 onClick={deployIndividualURINFT}
                 label="Individual URI"
                 loading={isLoading}
+                disabled={isLoading || !isConnected}
               />
             </div>
           </div>
